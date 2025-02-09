@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Keyboard System</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e3f2fd;
+            text-align: center;
+        }
+        .navbar {
+            background-color: #0288d1;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 10px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .hero {
+            padding: 50px;
+            background-color: #039be5;
+            color: white;
+            border-radius: 0 0 20px 20px;
+        }
+        .keyboard-container {
+            margin: 30px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .keyboard {
+            display: grid;
+            grid-template-columns: repeat(10, 60px);
+            gap: 8px;
+            max-width: 700px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .key {
+            width: 60px;
+            height: 60px;
+            background-color: #fff;
+            border: 2px solid #0288d1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 8px;
+            transition: all 0.2s ease-in-out;
+        }
+        .key:hover {
+            background-color: #81d4fa;
+            transform: scale(1.1);
+        }
+        .start-button, .stop-button {
+            padding: 15px 30px;
+            font-size: 20px;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .start-button {
+            background-color: #43a047;
+            color: white;
+        }
+        .start-button:hover {
+            background-color: #388e3c;
+            transform: scale(1.1);
+        }
+        .stop-button {
+            background-color: #d32f2f;
+            color: white;
+        }
+        .stop-button:hover {
+            background-color: #c62828;
+            transform: scale(1.1);
+        }
+        .footer {
+            margin-top: 50px;
+            padding: 20px;
+            background-color: #0288d1;
+            color: white;
+            font-size: 16px;
+            border-radius: 10px 10px 0 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#features">Features</a>
+        <a href="#contact">Contact</a>
+    </div>
+    <div class="hero">
+        <h1>Welcome to the Virtual Keyboard System</h1>
+        <p>Click the button below to start or stop the virtual keyboard.</p>
+    </div>
+
+    <div class="keyboard-container">
+        <h2>Try Our Virtual Keyboard</h2>
+        <div class="keyboard" id="keyboard"></div>
+    </div>
+
+    <button class="start-button" onclick="startTyping()">Start Typing</button>
+    <button class="stop-button" onclick="stopTyping()">Stop Typing</button>
+
+    <div class="footer">
+        <p>&copy; 2025 Virtual Keyboard System. All rights reserved.</p>
+    </div>
+
+    <script>
+        const keys = "QWERTYUIOPASDFGHJKLZXCVBNM".split("");
+        const keyboardDiv = document.getElementById("keyboard");
+
+        keys.forEach(letter => {
+            let key = document.createElement("div");
+            key.classList.add("key");
+            key.textContent = letter;
+            key.addEventListener("click", () => {
+                alert(`Key Pressed: ${letter}`);
+            });
+            keyboardDiv.appendChild(key);
+        });
+
+        function startTyping() {
+            fetch("http://127.0.0.1:5000/start-typing")
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                })
+                .catch(error => console.error("Error:", error));
+        }
+
+        function stopTyping() {
+            fetch("http://127.0.0.1:5000/stop-typing")
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                })
+                .catch(error => console.error("Error:", error));
+        }
+    </script>
+</body>
+</html>
