@@ -37,6 +37,8 @@ def stop_typing():
     return jsonify({"error": "No active process found"}), 400
 
 
+
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))  # Get PORT from environment variable
+    port = int(os.environ.get("PORT", 5000))  # Use the port provided by Render
     app.run(host='0.0.0.0', port=port, debug=True)
+
