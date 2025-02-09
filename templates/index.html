@@ -6,7 +6,7 @@
     <title>Virtual Keyboard System</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #e3f2fd;
@@ -90,14 +90,6 @@
             background-color: #c62828;
             transform: scale(1.1);
         }
-        .footer {
-            margin-top: 50px;
-            padding: 20px;
-            background-color: #0288d1;
-            color: white;
-            font-size: 16px;
-            border-radius: 10px 10px 0 0;
-        }
     </style>
 </head>
 <body>
@@ -105,24 +97,18 @@
         <a href="#home">Home</a>
         <a href="#about">About</a>
         <a href="#features">Features</a>
-        <a href="#contact">Contact</a>
     </div>
     <div class="hero">
         <h1>Welcome to the Virtual Keyboard System</h1>
-        <p>Click the button below to start or stop the virtual keyboard.</p>
+        <p>Type seamlessly with our advanced virtual keyboard</p>
     </div>
-
     <div class="keyboard-container">
         <h2>Try Our Virtual Keyboard</h2>
         <div class="keyboard" id="keyboard"></div>
     </div>
-
+    
     <button class="start-button" onclick="startTyping()">Start Typing</button>
     <button class="stop-button" onclick="stopTyping()">Stop Typing</button>
-
-    <div class="footer">
-        <p>&copy; 2025 Virtual Keyboard System. All rights reserved.</p>
-    </div>
 
     <script>
         const keys = "QWERTYUIOPASDFGHJKLZXCVBNM".split("");
@@ -133,7 +119,7 @@
             key.classList.add("key");
             key.textContent = letter;
             key.addEventListener("click", () => {
-                alert(`Key Pressed: ${letter}`);
+                document.getElementById("output").value += letter;
             });
             keyboardDiv.appendChild(key);
         });
