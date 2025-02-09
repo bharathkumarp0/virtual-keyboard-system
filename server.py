@@ -7,31 +7,35 @@ app = Flask(__name__, template_folder="templates")
 
 process = None
 
-@app.route('/')  # Ensure the root URL is mapped to index.html
+@app.route('/')  # Serve index.html on the root URL
 def home():
     return render_template("index.html")
 
 @app.route('/start-typing', methods=['GET'])
 def start_typing():
     global process
-    if process is None:
-        python_executable = sys.executable
-        process = subprocess.Popen([python_executable, os.path.abspath("main.py")])
-        return jsonify({"message": "Virtual Keyboard Started"}), 200
-    else:
-        return jsonify({"message": "Virtual Keyboard is already running"}), 200
+    try:
+        if process is None:
+            python_executable = sys.executable
+            process = subprocess.Popen([python_executable, "main.py"], cwd=os.getcwd(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            return jsonify({"message": "Virtual Keyboard Started"}), 200
+        else:
+            return jsonify({"message": "Virtual Keyboard is already running"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route('/stop-typing', methods=['GET'])
 def stop_typing():
     global process
     if process:
-        process.terminate()
-        process = None
-        return jsonify({"message": "Virtual Keyboard Stopped"}), 200
+        try:
+            process.terminate()
+            process = None
+            return jsonify({"message": "Virtual Keyboard Stopped"}), 200
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
     return jsonify({"error": "No active process found"}), 400
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 10000))  # Ensure it uses the assigned Render port
+    port = int(os.environ.get("PORT", 10000))  # Get Render-assigned port
     app.run(host='0.0.0.0', port=port, debug=True)
-
-
